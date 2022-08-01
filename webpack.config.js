@@ -8,7 +8,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-          title: 'Todo Now',
+          title: 'TiddyDo',
           /*favicon: '',*/
         }),
       ],
