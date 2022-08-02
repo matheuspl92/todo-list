@@ -12,8 +12,6 @@ const Project = (name) => {
         removeTodo: (todoIndex) => {todoArray.splice(todoIndex, 1)},
 
         editTodo: (todoIndex, todo) => {todoArray[todoIndex] = todo},
-
-
     }
 }
 

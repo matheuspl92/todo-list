@@ -14,7 +14,6 @@ const Todo = (name, description, dueDate, priority) => {
         editDescription: (newDescription) => {todoDescription = newDescription},
         editDueDate: (newDueDate) => {todoDueDate = newDueDate},
         editPriority: (newPriority) => {todoPriority = newPriority},
-    
     }
 }
 

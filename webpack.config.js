@@ -9,7 +9,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
           title: 'TiddyDo',
-          /*favicon: '',*/
+          favicon: './src/favicon.png',
         }),
       ],
     devtool: 'inline-source-map',
