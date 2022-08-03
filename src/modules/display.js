@@ -1,4 +1,5 @@
 import imgLogo from "/home/matheus/repos/todo-list/src/tick-mark.png"
+import imgAdd from "/home/matheus/repos/todo-list/src/add-icon.png"
 
 const mainContainer = document.createElement('div');
 mainContainer.id = 'main-container';
@@ -114,6 +115,13 @@ function loadProjects(projectsArray) {
     sortPriority.classList.add('sort-btn');
     sortPriority.innerHTML = "Priority";
     contentSettings.appendChild(sortPriority);*/
+
+    const addProject = document.createElement('img');
+    addProject.setAttribute('src', imgAdd)
+    addProject.id = 'add-project-btn';
+    addProject.classList.add('add-btn');
+    addProject.innerHTML = "Add";
+    contentSettings.appendChild(addProject);
 
     const contentBox = document.createElement('div');
     contentBox.id = 'content-box';
