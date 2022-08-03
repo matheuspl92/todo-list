@@ -7,4 +7,5 @@ Storage.addProject(Project('My first project'));
 Storage.addProject(Project('My second project'));
 Storage.addProject(Project('My third project'));
 
-Display.loadPage(Storage.getProjects());
+Display.loadPage();
+Display.loadProjects(Storage.getProjects())

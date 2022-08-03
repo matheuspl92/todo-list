@@ -4,8 +4,7 @@ const mainContainer = document.createElement('div');
 mainContainer.id = 'main-container';
 document.body.appendChild(mainContainer);
 
-function loadPage(projectsArray) {
-    console.log(projectsArray)
+function loadPage() {
 
     //Create basic containers
     const sideMenu = document.createElement('div');
@@ -86,4 +85,55 @@ function loadPage(projectsArray) {
     footer.appendChild(footerLink);
 }
 
-export {loadPage};
+function loadProjects(projectsArray) {
+    const contentContainer = document.getElementById('content-container');
+
+    const contentTitle = document.createElement('div');
+    contentTitle.id = 'content-title';
+    contentTitle.innerHTML = 'Projects'
+    contentContainer.appendChild(contentTitle);
+
+    const contentSettings = document.createElement('div');
+    contentSettings.id = 'content-settings';
+    contentContainer.appendChild(contentSettings);
+
+    //Use when projects have priorities or due dates to sort by
+    /*const sortText = document.createElement('p');
+    sortText.id = 'sort-text';
+    sortText.innerHTML = 'Sort by'
+    contentSettings.appendChild(sortText);
+
+    const sortDate = document.createElement('button');
+    sortDate.id = 'sort-date-btn';
+    sortDate.classList.add('sort-btn');
+    sortDate.innerHTML = "Date";
+    contentSettings.appendChild(sortDate);
+
+    const sortPriority = document.createElement('button');
+    sortPriority.id = 'sort-priority-btn';
+    sortPriority.classList.add('sort-btn');
+    sortPriority.innerHTML = "Priority";
+    contentSettings.appendChild(sortPriority);*/
+
+    const contentBox = document.createElement('div');
+    contentBox.id = 'content-box';
+    contentContainer.appendChild(contentBox);
+
+    createProjectsContent(contentBox, projectsArray);
+}
+
+function createProjectsContent(container, projectsArray, typeOfSort, isDecreasing = false) {
+
+    projectsArray.forEach(project => {
+        const projectContainer = document.createElement('div');
+        projectContainer.classList.add('project-container');
+        container.appendChild(projectContainer);
+
+        const projectName = document.createElement('h3')
+        projectName.classList.add('project-name');
+        projectName.innerHTML = project.getName();
+        projectContainer.appendChild(projectName)
+    });
+}
+
+export {loadPage, loadProjects};

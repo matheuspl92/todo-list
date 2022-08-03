@@ -3,7 +3,7 @@ const Project = (name) => {
     const todoArray = [];
 
     return {
-        getProjectName: () => {return projectName},
+        getName: () => {return projectName},
 
         addTodo: (todo) => {todoArray.push(todo)},
 
