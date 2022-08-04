@@ -133,6 +133,9 @@ function loadProjects(projectsArray) {
     addProject.id = 'add-project-btn';
     addProject.classList.add('add-btn');
     addProject.innerHTML = "Add";
+    addProject.addEventListener('click', () => {
+        createProject(projectsArray);
+    })
     contentSettings.appendChild(addProject);
 
     const contentBox = document.createElement('div');
@@ -140,6 +143,46 @@ function loadProjects(projectsArray) {
     contentContainer.appendChild(contentBox);
 
     createProjectsContent(contentBox, projectsArray);
+}
+
+function createProject(projectsArray) {
+    console.log("CALLED!!")
+
+    if(document.getElementById('myModal')) {
+        document.getElementById('myModal').remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'myModal';
+    modal.classList.add('modal');
+    document.body.appendChild(modal);
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+    modal.appendChild(modalContent);
+
+    const span = document.createElement('span');
+    span.classList.add('close');
+    span.innerHTML = '&times;';
+    modalContent.appendChild(span);
+
+    const p = document.createElement('p');
+    p.innerHTML = 'Some text in the Modal..';
+    modalContent.appendChild(p);
+
+    //Functions
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+  
+  // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+         modal.style.display = "none";
+        }
+    }
 }
 
 function createProjectsContent(container, projectsArray, typeOfSort, isDecreasing = false) {

@@ -1,4 +1,5 @@
 import "./style.css";
+import "./modal.css";
 import * as Display from "./modules/display";
 import * as Storage from "./modules/storage";
 import Project from "./modules/project";
