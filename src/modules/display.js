@@ -1,9 +1,17 @@
+import * as Storage from "./storage";
 import imgLogo from "/home/matheus/repos/todo-list/src/tick-mark.png"
 import imgAdd from "/home/matheus/repos/todo-list/src/add-icon.png"
 
 const mainContainer = document.createElement('div');
 mainContainer.id = 'main-container';
 document.body.appendChild(mainContainer);
+
+function _clearContentContainer() {
+    const contentContainer = document.getElementById('content-container');
+    while(contentContainer.hasChildNodes()){
+        contentContainer.firstChild.remove();
+    }
+}
 
 function loadPage() {
 
@@ -35,9 +43,11 @@ function loadPage() {
     selectionContainer.id = 'selection-container';
     sideMenu.appendChild(selectionContainer);
 
+    
     const myProjects = document.createElement('h2');
     myProjects.id = 'my-projects';
     myProjects.innerHTML = 'My projects';
+    myProjects.addEventListener('click', () => {loadProjects(Storage.getProjects())})
     selectionContainer.appendChild(myProjects);
 
     const myTodos = document.createElement('h2');
@@ -87,6 +97,8 @@ function loadPage() {
 }
 
 function loadProjects(projectsArray) {
+    _clearContentContainer();
+
     const contentContainer = document.getElementById('content-container');
 
     const contentTitle = document.createElement('div');
@@ -137,10 +149,56 @@ function createProjectsContent(container, projectsArray, typeOfSort, isDecreasin
         projectContainer.classList.add('project-container');
         container.appendChild(projectContainer);
 
+        projectContainer.addEventListener('click', () => {
+            loadProjectTodos(project);
+        })
+
         const projectName = document.createElement('h3')
         projectName.classList.add('project-name');
         projectName.innerHTML = project.getName();
         projectContainer.appendChild(projectName)
+    });
+}
+
+function loadProjectTodos(project) {
+    _clearContentContainer();
+
+    const contentContainer = document.getElementById('content-container');
+
+    const contentTitle = document.createElement('div');
+    contentTitle.id = 'content-title';
+    contentTitle.innerHTML = project.getName();
+    contentContainer.appendChild(contentTitle);
+
+    const contentSettings = document.createElement('div');
+    contentSettings.id = 'content-settings';
+    contentContainer.appendChild(contentSettings);
+
+    const addTodo = document.createElement('img');
+    addTodo.setAttribute('src', imgAdd)
+    addTodo.id = 'add-todo-btn';
+    addTodo.classList.add('add-btn');
+    addTodo.innerHTML = "Add";
+    contentSettings.appendChild(addTodo);
+
+    const contentBox = document.createElement('div');
+    contentBox.id = 'todo-content-box';
+    contentContainer.appendChild(contentBox);
+
+    createTodosContent(contentBox, project.getTodoArray())
+}
+
+function createTodosContent(container, todosArray, typeOfSort, isDecreasing = false) {
+
+    todosArray.forEach(todo => {
+        const todoContainer = document.createElement('div');
+        todoContainer.classList.add('todo-container');
+        container.appendChild(todoContainer);
+
+        const todoName = document.createElement('p')
+        todoName.classList.add('todo-name');
+        todoName.innerHTML = todo.getName();
+        todoContainer.appendChild(todoName)
     });
 }
 
