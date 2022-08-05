@@ -1,6 +1,7 @@
 import * as Storage from "./storage";
-import imgLogo from "/home/matheus/repos/todo-list/src/tick-mark.png"
-import imgAdd from "/home/matheus/repos/todo-list/src/add-icon.png"
+import Project from "./project";
+import imgLogo from "/home/matheus/repos/todo-list/src/tick-mark.png";
+import imgAdd from "/home/matheus/repos/todo-list/src/add-icon.png";
 
 const mainContainer = document.createElement('div');
 mainContainer.id = 'main-container';
@@ -96,7 +97,7 @@ function loadPage() {
     footer.appendChild(footerLink);
 }
 
-function loadProjects(projectsArray) {
+function loadProjects() {
     _clearContentContainer();
 
     const contentContainer = document.getElementById('content-container');
@@ -134,7 +135,7 @@ function loadProjects(projectsArray) {
     addProject.classList.add('add-btn');
     addProject.innerHTML = "Add";
     addProject.addEventListener('click', () => {
-        createProject(projectsArray);
+        createProject();
     })
     contentSettings.appendChild(addProject);
 
@@ -142,10 +143,10 @@ function loadProjects(projectsArray) {
     contentBox.id = 'content-box';
     contentContainer.appendChild(contentBox);
 
-    createProjectsContent(contentBox, projectsArray);
+    createProjectsContent(contentBox);
 }
 
-function createProject(projectsArray) {
+function createProject() {
     console.log("CALLED!!")
 
     if(document.getElementById('myModal')) {
@@ -161,14 +162,46 @@ function createProject(projectsArray) {
     modalContent.classList.add('modal-content');
     modal.appendChild(modalContent);
 
+    const modalTitle = document.createElement('h2');
+    modalTitle.classList.add('modal-title');
+    modalTitle.innerHTML = 'Create new project';
+    modalContent.appendChild(modalTitle);
+
     const span = document.createElement('span');
     span.classList.add('close');
     span.innerHTML = '&times;';
     modalContent.appendChild(span);
 
-    const p = document.createElement('p');
-    p.innerHTML = 'Some text in the Modal..';
-    modalContent.appendChild(p);
+    const form = document.createElement('form');
+    form.setAttribute('onsubmit', 'return false');
+    modalContent.appendChild(form);
+
+    const formControl = document.createElement('div');
+    formControl.classList.add('form-control');
+    form.appendChild(formControl);
+
+    const label = document.createElement('label');
+    label.setAttribute('for', 'project-name-input');
+    label.innerHTML = 'Choose a project name:';
+    formControl.appendChild(label);
+
+    const projectNameInput = document.createElement('input');
+    projectNameInput.id = 'project-name-input';
+    projectNameInput.setAttribute('type', 'text');
+    projectNameInput.required = true;
+    formControl.appendChild(projectNameInput);
+
+    const submitBtn = document.createElement('button');
+    submitBtn.classList.add('submit-btn');
+    submitBtn.setAttribute('type', 'submit');
+    submitBtn.innerHTML = 'Create project';
+    form.appendChild(submitBtn);
+
+    form.addEventListener('submit', () => {
+        Storage.addProject(Project(projectNameInput.value));
+        loadProjects();
+        modal.style.display = "none";
+    })
 
     //Functions
 
@@ -185,9 +218,9 @@ function createProject(projectsArray) {
     }
 }
 
-function createProjectsContent(container, projectsArray, typeOfSort, isDecreasing = false) {
+function createProjectsContent(container, typeOfSort, isDecreasing = false) {
 
-    projectsArray.forEach(project => {
+    Storage.getProjects().forEach(project => {
         const projectContainer = document.createElement('div');
         projectContainer.classList.add('project-container');
         container.appendChild(projectContainer);

@@ -15,4 +15,4 @@ Storage.addProject(Project('My second project'));
 Storage.addProject(Project('My third project'));
 
 Display.loadPage();
-Display.loadProjects(Storage.getProjects())
+Display.loadProjects();
