@@ -2,6 +2,8 @@ import * as Storage from "./storage";
 import Project from "./project";
 import imgLogo from "/home/matheus/repos/todo-list/src/tick-mark.png";
 import imgAdd from "/home/matheus/repos/todo-list/src/add-icon.png";
+import iconTrash from "/home/matheus/repos/todo-list/src/trash-icon.svg";
+import iconEdit from "/home/matheus/repos/todo-list/src/edit-icon.svg"
 
 const mainContainer = document.createElement('div');
 mainContainer.id = 'main-container';
@@ -220,7 +222,7 @@ function createProject() {
 
 function createProjectsContent(container, typeOfSort, isDecreasing = false) {
 
-    Storage.getProjects().forEach(project => {
+    Storage.getProjects().forEach((project, index) => {
         const projectContainer = document.createElement('div');
         projectContainer.classList.add('project-container');
         container.appendChild(projectContainer);
@@ -233,7 +235,31 @@ function createProjectsContent(container, typeOfSort, isDecreasing = false) {
         projectName.classList.add('project-name');
         projectName.innerHTML = project.getName();
         projectContainer.appendChild(projectName)
+
+        const iconsContainer = document.createElement('div');
+        iconsContainer.classList.add('icon-container');
+        projectContainer.appendChild(iconsContainer);
+
+        const editBtn = document.createElement('img');
+        editBtn.classList.add('edit-btn');
+        editBtn.setAttribute('src', iconEdit);
+        iconsContainer.appendChild(editBtn);
+
+        const trashBtn = document.createElement('img');
+        trashBtn.classList.add('trash-btn');
+        trashBtn.setAttribute('src', iconTrash);
+        iconsContainer.appendChild(trashBtn);
+
+        trashBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deleteProject(index);
+            loadProjects();
+        })
     });
+}
+
+function deleteProject(projectIndex) {
+    Storage.removeProject(projectIndex);
 }
 
 function loadProjectTodos(project) {

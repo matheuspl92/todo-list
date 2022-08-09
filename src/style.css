@@ -253,6 +253,18 @@ h2 {
 	filter: brightness(75%);
 }
 
+.icon-container {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.edit-btn,
+.trash-btn {
+	z-index: 5;
+	height: 2em;
+}
+
 /* CONTENT CONTAINER - TODOS */
 
 #todo-content-box {
