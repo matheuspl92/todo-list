@@ -55,7 +55,16 @@
     box-shadow: 0px 0px 2px gray;
   }
 
-  .submit-btn {
+  .btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .submit-btn,
+  .confirm-btn {
+    flex-grow: 1;
     margin-top: 30px;
     height: 3em;
     color: white;
@@ -68,12 +77,34 @@
     transition: all .25s;
   }
 
-  .submit-btn:hover {
+  .cancel-btn {
+    flex-grow: 1;
+    margin-top: 30px;
+    height: 3em;
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    background-color: gray;
+    border: none;
+    border-radius: 1.5em;
+    box-shadow: 0px 0px 5px gray;
+    transition: all .25s;
+  }
+
+  .submit-btn:hover,
+  .confirm-btn:hover {
     cursor: pointer;
     background-color: var(--primary-dark);
   }
 
-  .submit-btn:active {
+  .cancel-btn:hover {
+    cursor: pointer;
+    filter: brightness(90%);
+  }
+
+  .submit-btn:active,
+  .confirm-btn:active,
+  .cancel-btn:active {
     filter: brightness(80%);
   }
   

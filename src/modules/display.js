@@ -253,13 +253,72 @@ function createProjectsContent(container, typeOfSort, isDecreasing = false) {
         trashBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             deleteProject(index);
-            loadProjects();
         })
     });
 }
 
 function deleteProject(projectIndex) {
-    Storage.removeProject(projectIndex);
+
+    if(document.getElementById('myModal')) {
+        document.getElementById('myModal').remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'myModal';
+    modal.classList.add('modal');
+    document.body.appendChild(modal);
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+    modal.appendChild(modalContent);
+
+    const modalTitle = document.createElement('h2');
+    modalTitle.classList.add('modal-title');
+    modalTitle.innerHTML = 'Delete project?';
+    modalContent.appendChild(modalTitle);
+
+    const span = document.createElement('span');
+    span.classList.add('close');
+    span.innerHTML = '&times;';
+    modalContent.appendChild(span);
+
+    const btnContainer = document.createElement('div');
+    btnContainer.classList.add('btn-container');
+    modalContent.appendChild(btnContainer);
+
+    const confirmBtn = document.createElement('button');
+    confirmBtn.classList.add('confirm-btn');
+    confirmBtn.innerHTML = 'Confirm';
+    btnContainer.appendChild(confirmBtn);
+
+    confirmBtn.addEventListener('click', () => {
+        Storage.removeProject(projectIndex);
+        loadProjects();
+        modal.style.display = "none";
+    })
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.classList.add('cancel-btn');
+    cancelBtn.innerHTML = 'Cancel';
+    btnContainer.appendChild(cancelBtn);
+
+    cancelBtn.addEventListener('click', () => {
+        modal.style.display = "none";
+    })
+
+    //Functions
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+  
+  // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+         modal.style.display = "none";
+        }
+    }
 }
 
 function loadProjectTodos(project) {
