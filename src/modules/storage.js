@@ -9,7 +9,10 @@ const addProject = (project) => {
     saveData(projectsArray);
 }
 
-const removeProject = (projectIndex) => {projectsArray.splice(projectIndex, 1)}
+const removeProject = (projectIndex) => {
+    projectsArray.splice(projectIndex, 1);
+    saveData(projectsArray);
+}
 
 const editProject = (projectIndex, project) => {projectsArray[projectIndex] = project}
 

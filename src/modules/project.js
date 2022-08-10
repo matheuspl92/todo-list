@@ -1,8 +1,11 @@
-const Project = (name) => {
+const Project = (name, id) => {
+    const projectId = id;
     let projectName = name;
-    const todoArray = [];
+    let todoArray = [];
 
     return {
+        getId: () => {return projectId},
+
         getName: () => {return projectName},
 
         addTodo: (todo) => {todoArray.push(todo)},
@@ -12,6 +15,8 @@ const Project = (name) => {
         removeTodo: (todoIndex) => {todoArray.splice(todoIndex, 1)},
 
         editTodo: (todoIndex, todo) => {todoArray[todoIndex] = todo},
+
+        setTodoArray: (newTodoArray) => {todoArray = newTodoArray},
     }
 }
 
