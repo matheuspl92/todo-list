@@ -21,11 +21,12 @@ const loadData = () => {
                     if(keyArray2[0] === 'todo') {
                         const loadedTodo = JSON.parse(localStorage.getItem(keyArray2.join('-')));
                         if(loadedTodo.parentProjectId === loadedProject.projectId) {
-                            loadedTodosArray.push(Todo(loadedTodo.name, loadedTodo.description, loadedTodo.dueDate, loadedTodo.priority));
+                            loadedTodosArray.push(Todo(loadedTodo.name, loadedTodo.description, loadedTodo.dueDate, loadedTodo.priority, loadedTodo.todoId));
                             console.log(loadedTodo);
                         }
                     }
                 }
+                console.log(loadedTodosArray);
                 loadedTodosArray.sort((a, b) => {
                     if(Number(a.getId()) < Number(b.getId())){
                         return -1;
@@ -39,7 +40,6 @@ const loadData = () => {
                 const newProjectObj = Project(loadedProject.name, loadedProject.projectId);
                 newProjectObj.setTodoArray(loadedTodosArray);
                 loadedProjectsArray.push(newProjectObj);
-                console.log(loadedProject);
             }
        }
        loadedProjectsArray.sort((a, b) => {
@@ -52,7 +52,6 @@ const loadData = () => {
         return 0;
        })
        
-       console.log(loadedProjectsArray);
        Storage.setProjects(loadedProjectsArray);
     };
 
