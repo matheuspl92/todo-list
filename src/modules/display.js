@@ -488,6 +488,11 @@ function createTodosContent(container, project, typeOfSort, isDecreasing = false
         editBtn.setAttribute('src', iconEdit);
         iconsContainer.appendChild(editBtn);
 
+        editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            editTodo(project, todo);
+        })
+
         const trashBtn = document.createElement('img');
         trashBtn.classList.add('trash-btn');
         trashBtn.setAttribute('src', iconTrash);
@@ -496,7 +501,6 @@ function createTodosContent(container, project, typeOfSort, isDecreasing = false
         trashBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             deleteTodo(project, todoIndex);
-            //deleteProject(index);
         })
     });
 }
@@ -682,6 +686,147 @@ function deleteTodo(project, todoIndex) {
     btnContainer.appendChild(cancelBtn);
 
     cancelBtn.addEventListener('click', () => {
+        modal.style.display = "none";
+    })
+
+    //Functions
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+  
+  // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+         modal.style.display = "none";
+        }
+    }
+}
+
+function editTodo(project, todo) {
+
+    if(document.getElementById('myModal')) {
+        document.getElementById('myModal').remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'myModal';
+    modal.classList.add('modal');
+    document.body.appendChild(modal);
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+    modal.appendChild(modalContent);
+
+    const modalTitle = document.createElement('h2');
+    modalTitle.classList.add('modal-title');
+    modalTitle.innerHTML = 'Edit todo';
+    modalContent.appendChild(modalTitle);
+
+    const span = document.createElement('span');
+    span.classList.add('close');
+    span.innerHTML = '&times;';
+    modalContent.appendChild(span);
+
+    const form = document.createElement('form');
+    form.setAttribute('onsubmit', 'return false');
+    modalContent.appendChild(form);
+
+    //name field
+    const formControl1 = document.createElement('div');
+    formControl1.classList.add('form-control');
+    form.appendChild(formControl1);
+
+    const label1 = document.createElement('label');
+    label1.setAttribute('for', 'todo-name-input');
+    label1.innerHTML = 'Title:';
+    formControl1.appendChild(label1);
+
+    const todoNameInput = document.createElement('input');
+    todoNameInput.id = 'todo-name-input';
+    todoNameInput.setAttribute('type', 'text');
+    todoNameInput.required = true;
+    todoNameInput.value = todo.getName();
+    formControl1.appendChild(todoNameInput);
+
+    //description field
+    const formControl2 = document.createElement('div');
+    formControl2.classList.add('form-control');
+    form.appendChild(formControl2);
+
+    const label2 = document.createElement('label');
+    label2.setAttribute('for', 'todo-description-input');
+    label2.innerHTML = 'Description:';
+    formControl2.appendChild(label2);
+
+    const todoDescriptionInput = document.createElement('textarea');
+    todoDescriptionInput.id = 'todo-description-textarea';
+    todoDescriptionInput.required = false;
+    todoDescriptionInput.value = todo.getDescription();
+    formControl2.appendChild(todoDescriptionInput);
+
+    //due date field
+    const formControl3 = document.createElement('div');
+    formControl3.classList.add('form-control');
+    form.appendChild(formControl3);
+
+    const label3 = document.createElement('label');
+    label3.setAttribute('for', 'todo-due-date-input');
+    label3.innerHTML = 'Due date:';
+    formControl3.appendChild(label3);
+
+    const todoDueDateInput = document.createElement('input');
+    todoDueDateInput.id = 'todo-due-date-input';
+    todoDueDateInput.setAttribute('type', 'date');
+    todoDueDateInput.required = true;
+    todoDueDateInput.value = todo.getDueDate();
+    formControl3.appendChild(todoDueDateInput);
+
+    //priority field
+    const formControl4 = document.createElement('div');
+    formControl4.classList.add('form-control');
+    form.appendChild(formControl4);
+
+    const label4 = document.createElement('label');
+    label4.setAttribute('for', 'todo-priority-input');
+    label4.innerHTML = 'Priority:';
+    formControl4.appendChild(label4);
+
+    const todoPrioritySelect = document.createElement('select');
+    todoPrioritySelect.id = 'todo-priority-select';
+    todoPrioritySelect.required = true;
+    todoPrioritySelect.value = todo.getPriority();
+    formControl4.appendChild(todoPrioritySelect);
+
+    const priorityOption1 = document.createElement('option');
+    priorityOption1.value = 'low';
+    priorityOption1.innerHTML = 'Low';
+    todoPrioritySelect.appendChild(priorityOption1);
+
+    const priorityOption2 = document.createElement('option');
+    priorityOption2.value = 'medium';
+    priorityOption2.innerHTML = 'Medium';
+    todoPrioritySelect.appendChild(priorityOption2);
+
+    const priorityOption3 = document.createElement('option');
+    priorityOption3.value = 'high';
+    priorityOption3.innerHTML = 'High';
+    todoPrioritySelect.appendChild(priorityOption3);
+
+    const submitBtn = document.createElement('button');
+    submitBtn.classList.add('submit-btn');
+    submitBtn.setAttribute('type', 'submit');
+    submitBtn.innerHTML = 'Edit todo';
+    form.appendChild(submitBtn);
+
+    form.addEventListener('submit', () => {
+        todo.editName(todoNameInput.value);
+        todo.editDescription(todoDescriptionInput.value);
+        todo.editDueDate(todoDueDateInput.value);
+        todo.editPriority(todoPrioritySelect.value);
+        saveData(Storage.getProjects());
+        loadProjectTodos(project);
         modal.style.display = "none";
     })
 
