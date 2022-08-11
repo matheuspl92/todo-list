@@ -241,14 +241,12 @@ h2 {
 	transition: all .25s;
 }
 
-.project-container:hover,
-.todo-container:hover {
+.project-container:hover {
 	cursor: pointer;
 	background-color: var(--primary-dark);
 }
 
-.project-container:active,
-.todo-container:active {
+.project-container:active {
 	background-color: var(--primary-dark);
 	filter: brightness(75%);
 }
@@ -270,22 +268,63 @@ h2 {
 	overflow: auto;
 	grid-column-start: 1;
 	grid-column-end: 3;
-	display: grid;
+	display: flex;
+	flex-direction: column;
 	gap: 20px;
 	padding: 5px 20px;
 	padding-bottom: 20px;
 	margin-right: 5px;
 	margin-bottom: 20px;
-	grid-template-rows: repeat(auto-fill, minmax(40px, 1fr));
 }
 
 .todo-container {
 	display: grid;
-	background-color: var(--primary-light);
+	grid-template-columns: 1fr 100px;
+	grid-template-rows: auto;
+	gap: 10px;
+	align-items: center;
+	background-color: white;
 	border-radius: 20px;
 	padding: 20px;
 	box-shadow: 0px 0px 5px gray;
 	transition: all .25s;
+}
+
+.low-priority {
+	border-left: 10px solid rgb(90, 255, 90);
+}
+
+.medium-priority {
+	border-left: 10px solid rgb(255, 255, 90);
+}
+
+.high-priority {
+	border-left: 10px solid rgb(255, 90, 90);
+}
+
+.todo-name {
+	font-weight: bold;
+}
+
+.todo-due-date {
+	color: gray;
+}
+
+.todo-container .icon-container {
+	grid-row-start: 1;
+	grid-column-start: 2;
+}
+
+.todo-description {
+	grid-column-start: 1;
+	grid-column-end: 3;
+	color: gray;
+	
+}
+
+.todo-container .edit-btn,
+.todo-container .trash-btn {
+	height: 1.5em;
 }
 
 /* COMMON CLASSES */
