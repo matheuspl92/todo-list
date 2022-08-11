@@ -266,6 +266,11 @@ function createProjectsContent(container, typeOfSort, isDecreasing = false) {
         editBtn.setAttribute('src', iconEdit);
         iconsContainer.appendChild(editBtn);
 
+        editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            editProject(project);
+        })
+
         const trashBtn = document.createElement('img');
         trashBtn.classList.add('trash-btn');
         trashBtn.setAttribute('src', iconTrash);
@@ -324,6 +329,95 @@ function deleteProject(projectIndex) {
     btnContainer.appendChild(cancelBtn);
 
     cancelBtn.addEventListener('click', () => {
+        modal.style.display = "none";
+    })
+
+    //Functions
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+  
+  // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+         modal.style.display = "none";
+        }
+    }
+}
+
+function editProject(project) {
+
+    if(document.getElementById('myModal')) {
+        document.getElementById('myModal').remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'myModal';
+    modal.classList.add('modal');
+    document.body.appendChild(modal);
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+    modal.appendChild(modalContent);
+
+    const modalTitle = document.createElement('h2');
+    modalTitle.classList.add('modal-title');
+    modalTitle.innerHTML = 'Edit project';
+    modalContent.appendChild(modalTitle);
+
+    const span = document.createElement('span');
+    span.classList.add('close');
+    span.innerHTML = '&times;';
+    modalContent.appendChild(span);
+
+    const form = document.createElement('form');
+    form.setAttribute('onsubmit', 'return false');
+    modalContent.appendChild(form);
+
+    const formControl = document.createElement('div');
+    formControl.classList.add('form-control');
+    form.appendChild(formControl);
+
+    const label = document.createElement('label');
+    label.setAttribute('for', 'project-name-input');
+    label.innerHTML = 'Title:';
+    formControl.appendChild(label);
+
+    const projectNameInput = document.createElement('input');
+    projectNameInput.id = 'project-name-input';
+    projectNameInput.setAttribute('type', 'text');
+    projectNameInput.required = true;
+    projectNameInput.value = project.getName();
+    formControl.appendChild(projectNameInput);
+
+    const formControl1 = document.createElement('div');
+    formControl1.classList.add('form-control');
+    form.appendChild(formControl1);
+
+    const label1 = document.createElement('label');
+    label1.setAttribute('for', 'project-description-textarea');
+    label1.innerHTML = 'Description:';
+    formControl1.appendChild(label1);
+
+    const projectDescriptionTextArea = document.createElement('textarea');
+    projectDescriptionTextArea.id = 'project-description-textarea';
+    projectDescriptionTextArea.required = false;
+    projectDescriptionTextArea.value = project.getDescription();
+    formControl1.appendChild(projectDescriptionTextArea);
+
+    const submitBtn = document.createElement('button');
+    submitBtn.classList.add('submit-btn');
+    submitBtn.setAttribute('type', 'submit');
+    submitBtn.innerHTML = 'Edit project';
+    form.appendChild(submitBtn);
+
+    form.addEventListener('submit', () => {
+        project.editName(projectNameInput.value);
+        project.editDescription(projectDescriptionTextArea.value);
+        saveData(Storage.getProjects());
+        loadProjects();
         modal.style.display = "none";
     })
 
