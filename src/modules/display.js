@@ -472,12 +472,20 @@ function createTodosContent(container, project, typeOfSort, isDecreasing = false
     project.getTodoArray().forEach((todo,todoIndex) => {
         const todoContainer = document.createElement('div');
         todoContainer.classList.add('todo-container');
+        if(todo.getPriority() === 'low'){todoContainer.classList.add('low-priority');}
+        if(todo.getPriority() === 'medium'){todoContainer.classList.add('medium-priority');}
+        if(todo.getPriority() === 'high'){todoContainer.classList.add('high-priority');}
         container.appendChild(todoContainer);
 
         const todoName = document.createElement('p')
         todoName.classList.add('todo-name');
         todoName.innerHTML = todo.getName();
-        todoContainer.appendChild(todoName)
+        todoContainer.appendChild(todoName);
+
+        const todoDueDate = document.createElement('p')
+        todoDueDate.classList.add('todo-due-date');
+        todoDueDate.innerHTML = todo.getDueDate();
+        todoContainer.appendChild(todoDueDate);
 
         const iconsContainer = document.createElement('div');
         iconsContainer.classList.add('icon-container');
@@ -502,6 +510,11 @@ function createTodosContent(container, project, typeOfSort, isDecreasing = false
             e.stopPropagation();
             deleteTodo(project, todoIndex);
         })
+
+        const todoDescription = document.createElement('p')
+        todoDescription.classList.add('todo-description');
+        todoDescription.innerHTML = todo.getDescription();
+        todoContainer.appendChild(todoDescription);
     });
 }
 
