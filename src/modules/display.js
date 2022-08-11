@@ -186,7 +186,7 @@ function createProject() {
 
     const label = document.createElement('label');
     label.setAttribute('for', 'project-name-input');
-    label.innerHTML = 'Choose a project name:';
+    label.innerHTML = 'Title:';
     formControl.appendChild(label);
 
     const projectNameInput = document.createElement('input');
@@ -195,6 +195,20 @@ function createProject() {
     projectNameInput.required = true;
     formControl.appendChild(projectNameInput);
 
+    const formControl1 = document.createElement('div');
+    formControl1.classList.add('form-control');
+    form.appendChild(formControl1);
+
+    const label1 = document.createElement('label');
+    label1.setAttribute('for', 'project-description-textarea');
+    label1.innerHTML = 'Description:';
+    formControl1.appendChild(label1);
+
+    const projectDescriptionTextArea = document.createElement('textarea');
+    projectDescriptionTextArea.id = 'project-description-textarea';
+    projectDescriptionTextArea.required = false;
+    formControl1.appendChild(projectDescriptionTextArea);
+
     const submitBtn = document.createElement('button');
     submitBtn.classList.add('submit-btn');
     submitBtn.setAttribute('type', 'submit');
@@ -202,7 +216,7 @@ function createProject() {
     form.appendChild(submitBtn);
 
     form.addEventListener('submit', () => {
-        Storage.addProject(Project(projectNameInput.value));
+        Storage.addProject(Project(projectNameInput.value, projectDescriptionTextArea.value));
         loadProjects();
         modal.style.display = "none";
     })
@@ -236,7 +250,12 @@ function createProjectsContent(container, typeOfSort, isDecreasing = false) {
         const projectName = document.createElement('h3')
         projectName.classList.add('project-name');
         projectName.innerHTML = project.getName();
-        projectContainer.appendChild(projectName)
+        projectContainer.appendChild(projectName);
+
+        const projectDescription = document.createElement('p')
+        projectDescription.classList.add('project-description');
+        projectDescription.innerHTML = project.getDescription();
+        projectContainer.appendChild(projectDescription);
 
         const iconsContainer = document.createElement('div');
         iconsContainer.classList.add('icon-container');

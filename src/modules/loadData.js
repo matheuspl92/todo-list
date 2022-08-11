@@ -37,7 +37,7 @@ const loadData = () => {
                     return 0;
                 })
                 
-                const newProjectObj = Project(loadedProject.name, loadedProject.projectId);
+                const newProjectObj = Project(loadedProject.name, loadedProject.description, loadedProject.projectId);
                 newProjectObj.setTodoArray(loadedTodosArray);
                 loadedProjectsArray.push(newProjectObj);
             }
