@@ -243,6 +243,11 @@ function createProject() {
 
 function createProjectsContent(container, typeOfSort, isDecreasing = false) {
 
+    if(!Storage.getProjects().length) {
+        container.className = 'empty';
+        container.innerHTML = `You don't have projects yet...`;
+    }
+
     Storage.getProjects().forEach((project, index) => {
         const projectContainer = document.createElement('div');
         projectContainer.classList.add('project-container');
@@ -474,6 +479,11 @@ function loadProjectTodos(project) {
 
 function createTodosContent(container, project, typeOfSort, isDecreasing = false) {
 
+    if(!project.getTodoArray().length) {
+        container.className = 'empty';
+        container.innerHTML = `You don't have todos yet...`;
+    }
+
     project.getTodoArray().forEach((todo,todoIndex) => {
         const todoContainer = document.createElement('div');
         todoContainer.classList.add('todo-container');
@@ -580,7 +590,7 @@ function createTodo(project) {
 
     const todoDescriptionInput = document.createElement('textarea');
     todoDescriptionInput.id = 'todo-description-textarea';
-    todoDescriptionInput.required = true;
+    todoDescriptionInput.required = false;
     formControl2.appendChild(todoDescriptionInput);
 
     //due date field
@@ -945,6 +955,11 @@ function createFilteredTodosContent(container, projectsArray, typeOfFilter, type
         });
             
     });
+
+    if(!container.hasChildNodes()) {
+        container.className = 'empty';
+        container.innerHTML = `You don't have todos yet...`;
+    }
 }
 
 export {loadPage, loadProjects};

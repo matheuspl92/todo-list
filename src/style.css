@@ -232,6 +232,15 @@ h2 {
 	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
 
+#content-box.empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: lightgray;
+	font-size: 2em;
+	font-weight: bold;
+}
+
 .project-container {
 	display: grid;
 	background-color: var(--primary-light);
@@ -275,6 +284,15 @@ h2 {
 	padding-bottom: 20px;
 	margin-right: 5px;
 	margin-bottom: 20px;
+}
+
+#todo-content-box.empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: lightgray;
+	font-size: 2em;
+	font-weight: bold;
 }
 
 .todo-container {
