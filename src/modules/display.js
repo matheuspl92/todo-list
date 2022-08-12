@@ -156,7 +156,6 @@ function loadProjects() {
 }
 
 function createProject() {
-    console.log("CALLED!!")
 
     if(document.getElementById('myModal')) {
         document.getElementById('myModal').remove();

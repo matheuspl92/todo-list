@@ -1,5 +1,4 @@
 const Todo = (name, description, dueDate, priority, id) => {
-    console.log(name);
     let todoName = name;
     let todoDescription = description;
     let todoDueDate = dueDate;

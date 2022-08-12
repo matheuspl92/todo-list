@@ -23,11 +23,9 @@ const loadData = () => {
                         const loadedTodo = JSON.parse(localStorage.getItem(keyArray2.join('-')));
                         if(loadedTodo.parentProjectId === loadedProject.projectId) {
                             loadedTodosArray.push(Todo(loadedTodo.name, loadedTodo.description, parseISO(loadedTodo.dueDate), loadedTodo.priority, loadedTodo.todoId));
-                            console.log(loadedTodo);
                         }
                     }
                 }
-                console.log(loadedTodosArray);
                 loadedTodosArray.sort((a, b) => {
                     if(Number(a.getId()) < Number(b.getId())){
                         return -1;

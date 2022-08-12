@@ -5564,7 +5564,6 @@ function loadProjects() {
 }
 
 function createProject() {
-    console.log("CALLED!!")
 
     if(document.getElementById('myModal')) {
         document.getElementById('myModal').remove();
@@ -6413,11 +6412,9 @@ const loadData = () => {
                         const loadedTodo = JSON.parse(localStorage.getItem(keyArray2.join('-')));
                         if(loadedTodo.parentProjectId === loadedProject.projectId) {
                             loadedTodosArray.push((0,_todo__WEBPACK_IMPORTED_MODULE_2__["default"])(loadedTodo.name, loadedTodo.description, (0,date_fns__WEBPACK_IMPORTED_MODULE_3__["default"])(loadedTodo.dueDate), loadedTodo.priority, loadedTodo.todoId));
-                            console.log(loadedTodo);
                         }
                     }
                 }
-                console.log(loadedTodosArray);
                 loadedTodosArray.sort((a, b) => {
                     if(Number(a.getId()) < Number(b.getId())){
                         return -1;
@@ -6514,7 +6511,6 @@ const saveData = (projectsArray) => {
 
     let todoIndex = 0;
     projectsArray.forEach((project, projectIndex) => {
-        console.log('saving project: %d', projectIndex)
         localStorage.setItem(`project-${projectIndex}`, JSON.stringify({'projectId': `${projectIndex}`, 'name': project.getName(), 'description': project.getDescription()}));
         project.getTodoArray().forEach((todo) => {
             localStorage.setItem(`todo-${todoIndex}`, JSON.stringify({'parentProjectId': `${projectIndex}`, 'todoId': todoIndex, 'name': todo.getName(), 'description': todo.getDescription(), 'dueDate': (0,date_fns__WEBPACK_IMPORTED_MODULE_0__["default"])(todo.getDueDate()), 'priority': todo.getPriority()}));
@@ -6580,7 +6576,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 const Todo = (name, description, dueDate, priority, id) => {
-    console.log(name);
     let todoName = name;
     let todoDescription = description;
     let todoDueDate = dueDate;
