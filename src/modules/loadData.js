@@ -1,3 +1,4 @@
+import { parseISO } from "date-fns";
 import Project from "./project";
 import * as Storage from "./storage";
 import Todo from "./todo";
@@ -21,7 +22,7 @@ const loadData = () => {
                     if(keyArray2[0] === 'todo') {
                         const loadedTodo = JSON.parse(localStorage.getItem(keyArray2.join('-')));
                         if(loadedTodo.parentProjectId === loadedProject.projectId) {
-                            loadedTodosArray.push(Todo(loadedTodo.name, loadedTodo.description, loadedTodo.dueDate, loadedTodo.priority, loadedTodo.todoId));
+                            loadedTodosArray.push(Todo(loadedTodo.name, loadedTodo.description, parseISO(loadedTodo.dueDate), loadedTodo.priority, loadedTodo.todoId));
                             console.log(loadedTodo);
                         }
                     }

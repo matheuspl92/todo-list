@@ -6,6 +6,7 @@ import iconTrash from "/home/matheus/repos/todo-list/src/trash-icon.svg";
 import iconEdit from "/home/matheus/repos/todo-list/src/edit-icon.svg"
 import Todo from "./todo";
 import saveData from "./saveData";
+import { format, formatDistanceToNow, parseISO } from "date-fns";
 
 const mainContainer = document.createElement('div');
 mainContainer.id = 'main-container';
@@ -484,7 +485,7 @@ function createTodosContent(container, project, typeOfSort, isDecreasing = false
 
         const todoDueDate = document.createElement('p')
         todoDueDate.classList.add('todo-due-date');
-        todoDueDate.innerHTML = todo.getDueDate();
+        todoDueDate.innerHTML = `Due date: ${format(todo.getDueDate(), "MMMM dd yyyy")} - ${formatDistanceToNow(todo.getDueDate())} left` ;
         todoContainer.appendChild(todoDueDate);
 
         const iconsContainer = document.createElement('div');
@@ -631,7 +632,7 @@ function createTodo(project) {
     form.appendChild(submitBtn);
 
     form.addEventListener('submit', () => {
-        project.addTodo(Todo(todoNameInput.value, todoDescriptionInput.value, todoDueDateInput.value, todoPrioritySelect.value));
+        project.addTodo(Todo(todoNameInput.value, todoDescriptionInput.value, parseISO(todoDueDateInput.value), todoPrioritySelect.value));
         saveData(Storage.getProjects());
         loadProjectTodos(project);
         modal.style.display = "none";
