@@ -6,7 +6,7 @@ import iconTrash from "/home/matheus/repos/todo-list/src/trash-icon.svg";
 import iconEdit from "/home/matheus/repos/todo-list/src/edit-icon.svg"
 import Todo from "./todo";
 import saveData from "./saveData";
-import { format, formatDistanceToNow, parseISO } from "date-fns";
+import { add, compareDesc, endOfMonth, endOfToday, endOfWeek, format, formatDistanceToNow, parseISO } from "date-fns";
 
 const mainContainer = document.createElement('div');
 mainContainer.id = 'main-container';
@@ -69,24 +69,28 @@ function loadPage() {
     todayTodos.id = 'today-todos';
     todayTodos.classList.add('todo-selection');
     todayTodos.innerHTML = 'Today';
+    todayTodos.addEventListener('click', () => {showTodos('Today')});
     todoContainer.appendChild(todayTodos);
 
     const weekTodos = document.createElement('p');
     weekTodos.id = 'week-todos';
     weekTodos.classList.add('todo-selection');
-    weekTodos.innerHTML = 'Week';
+    weekTodos.innerHTML = 'This Week';
+    weekTodos.addEventListener('click', () => {showTodos('This Week')});
     todoContainer.appendChild(weekTodos);
 
     const monthTodos = document.createElement('p');
     monthTodos.id = 'month-todos';
     monthTodos.classList.add('todo-selection');
-    monthTodos.innerHTML = 'Month';
+    monthTodos.innerHTML = 'This Month';
+    monthTodos.addEventListener('click', () => {showTodos('This Month')});
     todoContainer.appendChild(monthTodos);
 
     const allTodos = document.createElement('p');
     allTodos.id = 'all-todos';
     allTodos.classList.add('todo-selection');
     allTodos.innerHTML = 'All';
+    allTodos.addEventListener('click', () => {showTodos('All')});
     todoContainer.appendChild(allTodos);
 
     const footer = document.createElement('p');
@@ -857,6 +861,90 @@ function editTodo(project, todo) {
          modal.style.display = "none";
         }
     }
+}
+
+function showTodos(typeOfFilter) {
+    _clearContentContainer();
+
+    const contentContainer = document.getElementById('content-container');
+
+    const contentTitle = document.createElement('div');
+    contentTitle.id = 'content-title';
+    contentTitle.innerHTML = typeOfFilter;
+    contentContainer.appendChild(contentTitle);
+
+    const contentSettings = document.createElement('div');
+    contentSettings.id = 'content-settings';
+    contentContainer.appendChild(contentSettings);
+
+    const contentBox = document.createElement('div');
+    contentBox.id = 'todo-content-box';
+    contentContainer.appendChild(contentBox);
+
+    createFilteredTodosContent(contentBox, Storage.getProjects(), typeOfFilter);
+    
+}
+
+function createFilteredTodosContent(container, projectsArray, typeOfFilter, typeOfSort, isDecreasing = false) {
+
+    let filterDate;
+    if(typeOfFilter === 'Today'){filterDate = endOfToday()}
+    if(typeOfFilter === 'This Week'){filterDate = endOfWeek(endOfToday())}
+    if(typeOfFilter === 'This Month'){filterDate = endOfMonth(endOfToday())}
+    if(typeOfFilter === 'All'){filterDate = add(endOfToday(), {years: 1000})}
+    projectsArray.forEach(project => {
+        project.getTodoArray().forEach((todo, todoIndex) => {
+
+            if (compareDesc(todo.getDueDate(), filterDate) >= 0) {
+                const todoContainer = document.createElement('div');
+                todoContainer.classList.add('todo-container');
+                if(todo.getPriority() === 'low'){todoContainer.classList.add('low-priority');}
+                if(todo.getPriority() === 'medium'){todoContainer.classList.add('medium-priority');}
+                if(todo.getPriority() === 'high'){todoContainer.classList.add('high-priority');}
+                container.appendChild(todoContainer);
+        
+                const todoName = document.createElement('p');
+                todoName.classList.add('todo-name');
+                todoName.innerHTML = todo.getName();
+                todoContainer.appendChild(todoName);
+        
+                const todoDueDate = document.createElement('p');
+                todoDueDate.classList.add('todo-due-date');
+                todoDueDate.innerHTML = `Due date: ${format(todo.getDueDate(), "MMMM dd yyyy")} - ${formatDistanceToNow(todo.getDueDate())} left` ;
+                todoContainer.appendChild(todoDueDate);
+        
+                const iconsContainer = document.createElement('div');
+                iconsContainer.classList.add('icon-container');
+                todoContainer.appendChild(iconsContainer);
+        
+                const editBtn = document.createElement('img');
+                editBtn.classList.add('edit-btn');
+                editBtn.setAttribute('src', iconEdit);
+                iconsContainer.appendChild(editBtn);
+        
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    editTodo(project, todo);
+                });
+        
+                const trashBtn = document.createElement('img');
+                trashBtn.classList.add('trash-btn');
+                trashBtn.setAttribute('src', iconTrash);
+                iconsContainer.appendChild(trashBtn);
+        
+                trashBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteTodo(project, todoIndex);
+                });
+        
+                const todoDescription = document.createElement('p');
+                todoDescription.classList.add('todo-description');
+                todoDescription.innerHTML = todo.getDescription();
+                todoContainer.appendChild(todoDescription);
+            }
+        });
+            
+    });
 }
 
 export {loadPage, loadProjects};
