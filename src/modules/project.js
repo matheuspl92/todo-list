@@ -1,30 +1,30 @@
 const Project = (name, description = '', id) => {
-    const projectId = id;
-    let projectName = name;
-    let todoArray = [];
-    let projectDescription = description;
+  const projectId = id;
+  let projectName = name;
+  let todoArray = [];
+  let projectDescription = description;
 
-    return {
-        getId: () => {return projectId},
+  return {
+    getId: () => projectId,
 
-        getName: () => {return projectName},
+    getName: () => projectName,
 
-        editName: (newName) => {projectName = newName},
+    editName: (newName) => { projectName = newName; },
 
-        addTodo: (todo) => {todoArray.push(todo)},
+    addTodo: (todo) => { todoArray.push(todo); },
 
-        getTodoArray: () => {return todoArray.slice()},
+    getTodoArray: () => todoArray.slice(),
 
-        removeTodo: (todoIndex) => {todoArray.splice(todoIndex, 1)},
+    removeTodo: (todoIndex) => { todoArray.splice(todoIndex, 1); },
 
-        editTodo: (todoIndex, todo) => {todoArray[todoIndex] = todo},
+    editTodo: (todoIndex, todo) => { todoArray[todoIndex] = todo; },
 
-        setTodoArray: (newTodoArray) => {todoArray = newTodoArray},
+    setTodoArray: (newTodoArray) => { todoArray = newTodoArray; },
 
-        getDescription: () => {return projectDescription},
+    getDescription: () => projectDescription,
 
-        editDescription: (newDescription) => {projectDescription = newDescription}
-    }
-}
+    editDescription: (newDescription) => { projectDescription = newDescription; },
+  };
+};
 
 export default Project;
