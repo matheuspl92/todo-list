@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-use-before-define */
+/* eslint-disable import/no-absolute-path */
 import {
   add, compareDesc, endOfMonth, endOfToday, endOfWeek, format, formatDistanceToNow, parseISO,
 } from 'date-fns';

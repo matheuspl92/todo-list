@@ -1,3 +1,4 @@
+/* eslint-disable default-param-last */
 const Project = (name, description = '', id) => {
   const projectId = id;
   let projectName = name;
